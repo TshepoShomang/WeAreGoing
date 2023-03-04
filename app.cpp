@@ -75,6 +75,9 @@ public:
     void getCurrentBalance(){
         cout << "Your current balance is R" << balance << endl;
     }
+    double getBalance(){
+        return balance;
+    }
 };
 
 class Tapping{
@@ -83,6 +86,8 @@ private:
     bool tapOut = false;
     bool currentState = false;
     bool previousState;
+    bool balanceCheck;
+    string amount;
     char tap;
     string outcome;
 
@@ -91,7 +96,16 @@ public:
         cout << "Do you want to tap in or out(i/o)";
         cin >> tap; cout << endl;
 
+
         if (tap == 'i' || tap == 'I'){
+            if (balanceCheck == true){
+                cout << "You have tapped in, please proceed ->" << endl;
+                currentState = true;
+            }else{
+                cout << "You have no funds, Please reload" << endl;
+                currentState = false;
+            }
+            
             cout << "You have tapped in, please proceed ->" << endl;
             currentState = true;
         }
@@ -131,6 +145,32 @@ public:
     string getTap(){
         return outcome;
     }
+//I am here
+    void setEnoughFunds(double balance){
+        if (balance > 20){
+            amount = "Enough";
+        }
+        else if (balance < 20){
+            amount = "LowBalance";
+        }
+        else if (balance < 10){
+            amount = "NoFunds";
+        }
+    }
+    void setBalanceCheck(){
+        if (amount == "Enough"){
+            cout << "Enough Funds" << endl;
+            balanceCheck = true;
+        }
+        else if (amount == "LowBalance"){
+            cout << "Low Balance" << endl;
+            balanceCheck = true;
+        }
+        else if (amount == "NoFunds") {
+            cout << "No Funds X" << endl;
+            balanceCheck = false;
+        }
+    }
 
 };
 
@@ -142,6 +182,7 @@ class Options{
     public:
         void setCurrentOption(){
             cout << "What would you like to do" << endl;
+            cout << "Please press (t) to tap..." << endl;
             cout << "a) Veiw Profile" << endl;
             cout << "b) Reload" << endl;
             cout << "c) Check Balance" << endl;
@@ -172,7 +213,7 @@ int main(){
 
 
     while (running){
-       /* sign.setSigned('y');
+        sign.setSigned('y');
         while (sign.signedin() == false){
             sign.setName();
             sign.setSurname();
@@ -181,8 +222,21 @@ int main(){
         }
 
         options.setCurrentOption();
-            
-        if (options.getCurrentOption() == 'a' || options.getCurrentOption() == 'A'){
+
+        
+
+        if (options.getCurrentOption() == 't' || options.getCurrentOption() == 't'){
+            tap.setEnoughFunds(money.getBalance());
+            tap.setBalanceCheck();
+            tap.setPreviousState();
+            cout << tap.getPreviousState() << endl;
+            tap.setCurrentState();
+            tap.setTap();
+            cout << tap.getTap() << endl;
+            cout << tap.getPreviousState() << endl;
+            options.setBack();
+        }    
+        else if (options.getCurrentOption() == 'a' || options.getCurrentOption() == 'A'){
             cout << "Name: " << sign.getName() << " " << sign.getSurname() << endl;
             cout << "Card Number: " << sign.getCardNumber() << endl;
             options.setBack();
@@ -205,25 +259,8 @@ int main(){
         }else{
             cout << "The option you chose is invalid please re-enter" << endl;
             options.setBack();
-        }*/
-        tap.setPreviousState();
-        cout << tap.getPreviousState() << endl;
-        tap.setCurrentState();
-        tap.setTap();
-        cout << tap.getTap() << endl;
-        cout << tap.getPreviousState() << endl;
-
-
-
-    }
-    
-
-    
-
-
-
-  
-    
+        }
+    }    
 }
 
 
